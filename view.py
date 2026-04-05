@@ -112,7 +112,7 @@ if sheet_data:
                 fralda = get_fralda_size(int(num))
                 
                 # Mensagem personalizada para o WhatsApp
-                mensagem = f"Olá! Gostaria de reservar o número {num} (Fralda {fralda}) para o Chá Rifa da Mariana. 👶🎀"
+                mensagem = f"Olá! Gostaria de reservar o número {num} (Fralda {fralda}) para o Chá Rifa da Mariana."
                 # Link do WhatsApp (URL Encode para os espaços funcionarem)
                 link_whatsapp = f"https://wa.me/{telefone_mae}?text={mensagem.replace(' ', '%20')}"
                 
