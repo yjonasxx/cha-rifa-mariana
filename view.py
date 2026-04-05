@@ -1,8 +1,3 @@
-st.set_page_config(
-    page_title="Rifa da Mariana 👶", # O nome que aparece na aba
-    page_icon="🎀",                # O ícone que aparece na aba (pode ser emoji ou URL de imagem)
-    layout="wide"
-)
 # -*- coding: utf-8 -*-
 """
 👶 Chá Rifa da Mariana - VISUALIZAÇÃO CLIENTE (SIMPLIFICADA)
