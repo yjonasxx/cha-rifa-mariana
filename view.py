@@ -99,20 +99,35 @@ if sheet_data:
     st.markdown("## 🟩 Números Livres para Reserva")
     
     if disponiveis_list:
-        # Exibição em grade fluida (10 colunas)
-        cols = st.columns(10)
-        # Ordenar por número para não ficar bagunçado
+        # Exibição em grade fluida (5 colunas para o botão ficar maior no celular)
+        cols = st.columns(5) 
         sorted_list = sorted(disponiveis_list, key=lambda x: int(x.get('Número', 0)))
         
+        # Dados do WhatsApp
+        telefone_mae = "5511980715234" # Formato: 55 + DDD + Numero (sem traço ou espaço)
+        
         for idx, entry in enumerate(sorted_list):
-            with cols[idx % 10]:
+            with cols[idx % 5]:
                 num = entry.get('Número', '?')
                 fralda = get_fralda_size(int(num))
+                
+                # Mensagem personalizada para o WhatsApp
+                mensagem = f"Olá! Gostaria de reservar o número {num} (Fralda {fralda}) para o Chá Rifa da Mariana. 👶🎀"
+                # Link do WhatsApp (URL Encode para os espaços funcionarem)
+                link_whatsapp = f"https://wa.me/{telefone_mae}?text={mensagem.replace(' ', '%20')}"
+                
+                # Criando o botão que na verdade é um link
                 st.markdown(f"""
-                <div class="number-card">
-                    <strong style='font-size: 1.4em; color: #2d5a3d;'>{num}</strong>
-                    <br><span style='color: #4a7c59; font-size: 0.8em;'>TAM: {fralda}</span>
-                </div>
+                <a href="{link_whatsapp}" target="_blank" style="text-decoration: none;">
+                    <div style='background: linear-gradient(45deg, #a8e6cf, #dcedc1);
+                                padding: 12px 5px; border-radius: 12px; text-align: center;
+                                margin: 5px 0; border: 2px solid white; 
+                                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                                transition: transform 0.2s;'>
+                        <strong style='font-size: 1.3em; color: #2d5a3d; display: block;'>{num}</strong>
+                        <span style='color: #4a7c59; font-size: 0.7em; font-weight: bold;'>RESERVAR</span>
+                    </div>
+                </a>
                 """, unsafe_allow_html=True)
     else:
         st.balloons()
