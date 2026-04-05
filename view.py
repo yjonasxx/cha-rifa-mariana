@@ -12,7 +12,7 @@ from google.oauth2.service_account import Credentials
 # CONFIGURAÇÃO DA PÁGINA
 # ============================================================================
 st.set_page_config(
-    page_title="👶 Chá Rifa da Mariana",
+    page_title="👶 Chá Rifa da Mariana 🎀",
     page_icon="🎀",
     layout="wide",
     initial_sidebar_state="collapsed"
