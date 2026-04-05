@@ -28,20 +28,6 @@ st.set_page_config(
 # ============================================================================
 CUSTOM_CSS = """
 <style>
-/* Esconde o rodapé "Made with Streamlit" */
-footer {visibility: hidden;}
-
-/* Esconde o menu de hambúrguer (três linhas) no topo direito */
-#MainMenu {visibility: hidden;}
-
-/* Esconde a barra de progresso e o botão de "Deploy" no topo */
-header {visibility: hidden;}
-
-/* Garante que o espaço do rodapé seja removido para não sobrar um buraco branco */
-.stAppDeployButton {
-    display: none;
-}
-
 .main {
     background: linear-gradient(135deg, #fff5f7 0%, #ffe4e6 100%);
     min-height: 100vh;
