@@ -87,51 +87,59 @@ def get_fralda_size(number):
 # INTERFACE PRINCIPAL
 # ============================================================================
 st.markdown("<h1>👶 Chá Rifa da Mariana 🎀</h1>", unsafe_allow_html=True)
-st.markdown("<h3 style='color: #ff9aa2; margin-top:-20px;'>Escolha seu número e ajude a Mariana!</h3>", unsafe_allow_html=True)
 
 sheet_data = get_sheet_data(SPREADSHEET_ID)
 
 if sheet_data:
-    # Filtrar apenas os disponíveis
     disponiveis_list = [e for e in sheet_data if e.get('Status') == 'Disponível']
     
     st.markdown("---")
     st.markdown("## 🟩 Números Livres para Reserva")
     
     if disponiveis_list:
-        # Exibição em grade fluida (5 colunas para o botão ficar maior no celular)
-        cols = st.columns(5) 
+        # Força o Streamlit a manter as colunas lado a lado no celular com CSS Flexbox
+        st.markdown("""
+            <style>
+                [data-testid="stHorizontalBlock"] {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    justify-content: center;
+                }
+                [data-testid="column"] {
+                    min-width: 70px !important; /* Tamanho mínimo do botão no celular */
+                    flex: 1 1 15% !important; /* Garante cerca de 4 a 5 por linha */
+                }
+            </style>
+        """, unsafe_allow_html=True)
+
+        # Dados do WhatsApp
+        telefone_mae = "5511980715234"
         sorted_list = sorted(disponiveis_list, key=lambda x: int(x.get('Número', 0)))
         
-        # Dados do WhatsApp
-        telefone_mae = "5511980715234" # Formato: 55 + DDD + Numero (sem traço ou espaço)
+        # Criamos um container flexível
+        container = st.container()
+        cols = container.columns(5) # Definimos 5, mas o CSS acima vai controlar a quebra
         
         for idx, entry in enumerate(sorted_list):
             with cols[idx % 5]:
                 num = entry.get('Número', '?')
                 fralda = get_fralda_size(int(num))
                 
-                # Mensagem personalizada para o WhatsApp
-                mensagem = f"Olá! Gostaria de reservar o número {num} (Fralda {fralda}) para o Chá Rifa da Mariana."
-                # Link do WhatsApp (URL Encode para os espaços funcionarem)
+                mensagem = f"Olá! Gostaria de reservar o número {num} (Fralda {fralda}) para o Chá Rifa da Mariana. 👶🎀"
                 link_whatsapp = f"https://wa.me/{telefone_mae}?text={mensagem.replace(' ', '%20')}"
                 
-                # Criando o botão que na verdade é um link
                 st.markdown(f"""
                 <a href="{link_whatsapp}" target="_blank" style="text-decoration: none;">
                     <div style='background: linear-gradient(45deg, #a8e6cf, #dcedc1);
-                                padding: 12px 5px; border-radius: 12px; text-align: center;
-                                margin: 5px 0; border: 2px solid white; 
-                                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                                transition: transform 0.2s;'>
-                        <strong style='font-size: 1.3em; color: #2d5a3d; display: block;'>{num}</strong>
-                        <span style='color: #4a7c59; font-size: 0.7em; font-weight: bold;'>RESERVAR</span>
+                                padding: 10px 2px; border-radius: 10px; text-align: center;
+                                margin-bottom: 5px; border: 2px solid white; 
+                                box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                        <strong style='font-size: 1.1em; color: #2d5a3d; display: block;'>{num}</strong>
+                        <span style='color: #4a7c59; font-size: 0.6em; font-weight: bold;'>RESERVAR</span>
                     </div>
                 </a>
                 """, unsafe_allow_html=True)
-    else:
-        st.balloons()
-        st.success("🎉 Todos os números já foram reservados! Obrigado a todos!")
 
 # ============================================================================
 # RODAPÉ DE CONTATO
