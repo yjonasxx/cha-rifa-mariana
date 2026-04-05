@@ -97,50 +97,43 @@ if sheet_data:
     st.markdown("## 🟩 Números Livres para Reserva")
     
     if disponiveis_list:
-        # Força o Streamlit a manter as colunas lado a lado no celular com CSS Flexbox
-        st.markdown("""
-            <style>
-                [data-testid="stHorizontalBlock"] {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 10px;
-                    justify-content: center;
-                }
-                [data-testid="column"] {
-                    min-width: 70px !important; /* Tamanho mínimo do botão no celular */
-                    flex: 1 1 15% !important; /* Garante cerca de 4 a 5 por linha */
-                }
-            </style>
-        """, unsafe_allow_html=True)
-
-        # Dados do WhatsApp
-        telefone_mae = "5511980715234"
+        st.markdown("---")
+        st.markdown("## 🟩 Escolha seu número (Toque para reservar)")
+        
+        # Ordenar os números corretamente do 1 ao 100
         sorted_list = sorted(disponiveis_list, key=lambda x: int(x.get('Número', 0)))
         
-        # Criamos um container flexível
-        container = st.container()
-        cols = container.columns(5) # Definimos 5, mas o CSS acima vai controlar a quebra
+        # Dados do WhatsApp
+        telefone_mae = "5511980715234"
         
-        for idx, entry in enumerate(sorted_list):
-            with cols[idx % 5]:
-                num = entry.get('Número', '?')
-                fralda = get_fralda_size(int(num))
-                
-                mensagem = f"Olá! Gostaria de reservar o número {num} (Fralda {fralda}) para o Chá Rifa da Mariana. 👶🎀"
-                link_whatsapp = f"https://wa.me/{telefone_mae}?text={mensagem.replace(' ', '%20')}"
-                
-                st.markdown(f"""
-                <a href="{link_whatsapp}" target="_blank" style="text-decoration: none;">
-                    <div style='background: linear-gradient(45deg, #a8e6cf, #dcedc1);
-                                padding: 10px 2px; border-radius: 10px; text-align: center;
-                                margin-bottom: 5px; border: 2px solid white; 
-                                box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
-                        <strong style='font-size: 1.1em; color: #2d5a3d; display: block;'>{num}</strong>
-                        <span style='color: #4a7c59; font-size: 0.6em; font-weight: bold;'>RESERVAR</span>
+        # LISTA VERTICAL (Melhor para Celular)
+        # Removi as colunas para que cada número ocupe sua própria linha
+        for entry in sorted_list:
+            num = entry.get('Número', '?')
+            fralda = get_fralda_size(int(num))
+            
+            # Mensagem personalizada
+            mensagem = f"Olá! Gostaria de reservar o número {num} (Fralda {fralda}) para o Chá Rifa da Mariana. 👶🎀"
+            link_whatsapp = f"https://wa.me/{telefone_mae}?text={mensagem.replace(' ', '%20')}"
+            
+            # Botão em largura total (Fácil de clicar com o dedão)
+            st.markdown(f"""
+            <a href="{link_whatsapp}" target="_blank" style="text-decoration: none;">
+                <div style='background: linear-gradient(45deg, #a8e6cf, #dcedc1);
+                            padding: 15px; border-radius: 12px; text-align: center;
+                            margin-bottom: 10px; border: 2px solid white; 
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                            display: flex; justify-content: space-between; align-items: center;'>
+                    <div style='text-align: left;'>
+                        <strong style='font-size: 1.5em; color: #2d5a3d;'>#{num}</strong>
+                        <span style='color: #4a7c59; font-size: 0.9em; margin-left: 10px;'>TAMANHO {fralda}</span>
                     </div>
-                </a>
-                """, unsafe_allow_html=True)
-
+                    <div style='background: #2d5a3d; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold;'>
+                        RESERVAR NO WHATSAPP ➔
+                    </div>
+                </div>
+            </a>
+            """, unsafe_allow_html=True)
 # ============================================================================
 # RODAPÉ DE CONTATO
 # ============================================================================
